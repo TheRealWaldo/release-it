@@ -1,0 +1,12 @@
+name: release-it Github Action
+description: Github Action to leverage release-it in Github repositories
+inputs:
+  json-opts:
+    description: Json configuration options (merged with file configuration and defaults)
+    required: false
+outputs:
+  json-result:
+    description: Serialized Json result object from release-it
+runs:
+  using: 'node12'
+  main: dist/index.js

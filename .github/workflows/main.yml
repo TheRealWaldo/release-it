@@ -1,0 +1,31 @@
+name: Tests
+
+on: push
+
+jobs:
+  test-action:
+    runs-on: ubuntu-latest
+    name: release-it Tests
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2.3.1
+
+    - name: Setup node.js
+      uses: actions/setup-node@v2.1.1
+      with:
+        node-version: 12
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Test running action
+      id: test-run
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: ./
+      with:
+        json-opts: '{"dry-run": true}'
+
+    - name: Dump output
+      run: echo "${{ steps.test-run.outputs.json-result }}"
