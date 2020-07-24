@@ -1,0 +1,39 @@
+{
+  "entries": {
+    "brew": {
+      "node": {
+        "version": "14.5.0",
+        "bottle": {
+          "cellar": ":any",
+          "prefix": "/usr/local",
+          "files": {
+            "catalina": {
+              "url": "https://homebrew.bintray.com/bottles/node-14.5.0.catalina.bottle.tar.gz",
+              "sha256": "91096144949902e76d46a3c0cfa26f5f55665da838f77ac96c58c416940d28d0"
+            },
+            "mojave": {
+              "url": "https://homebrew.bintray.com/bottles/node-14.5.0.mojave.bottle.tar.gz",
+              "sha256": "3f29cb2043ac857f2339ed390d54ea6124ff7be1c6fbb5a2a40a43261775247e"
+            },
+            "high_sierra": {
+              "url": "https://homebrew.bintray.com/bottles/node-14.5.0.high_sierra.bottle.tar.gz",
+              "sha256": "6d4ea6d0ed5ea232ca3614f187c106a813c07eee44f68fba884fcf4edc8b01b6"
+            }
+          }
+        }
+      }
+    }
+  },
+  "system": {
+    "macos": {
+      "catalina": {
+        "HOMEBREW_VERSION": "2.4.6",
+        "HOMEBREW_PREFIX": "/usr/local",
+        "Homebrew/homebrew-core": "e45b39aa677fc344226abc22ce85b28fcc54a6b3",
+        "CLT": "",
+        "Xcode": "11.6",
+        "macOS": "10.15.5"
+      }
+    }
+  }
+}

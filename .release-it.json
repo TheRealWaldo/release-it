@@ -1,0 +1,27 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "tag": true,
+    "commit": true,
+    "push": true
+  },
+  "github": {
+    "release": true,
+    "releaseName": "Release ${version}",
+    "draft": true
+  },
+  "hooks": {
+    "after:release": "echo Successfully bumped release to v${version} for ${repo.repository}."
+  },
+  "npm": {
+    "publish": false
+  },
+  "plugins": {
+    "@release-it/bumper": {
+      "out": {
+        "file": "README.md",
+        "type": "text/plain"
+      }
+    }
+  }
+}

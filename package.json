@@ -1,0 +1,34 @@
+{
+  "name": "gh-action-release-it",
+  "version": "0.0.1",
+  "description": "Github Action to leverage release-it in Github repositories",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheRealWaldo/release-it.git"
+  },
+  "author": "TheRealWaldo",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/TheRealWaldo/release-it/issues"
+  },
+  "homepage": "https://github.com/TheRealWaldo/release-it#readme",
+  "dependencies": {
+    "@actions/core": "^1.2.4",
+    "@actions/exec": "^1.0.4",
+    "@actions/github": "^4.0.0",
+    "@release-it/bumper": "^1.4.0",
+    "actions-toolkit": "^5.0.0",
+    "json5": "^2.1.3",
+    "release-it": "^13.6.5"
+  },
+  "devDependencies": {
+    "eslint": "^7.5.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "prettier": "^2.0.5"
+  }
+}
