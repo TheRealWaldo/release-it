@@ -30,10 +30,6 @@ try {
   console.log("Setting git email.");
   execSync(`git config user.email "${gitUserEmail}"`);
 
-  const currentBranch = /refs\/[a-zA-Z]+\/(.*)/.exec(process.env.GITHUB_REF)[1];
-  console.log("Checking out", currentBranch);
-  execSync(`git checkout ${currentBranch}`);
-
   console.log("Setting git remote.");
   execSync(`git remote set-url origin ${remoteRepo}`);
 
