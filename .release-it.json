@@ -2,8 +2,8 @@
   "git": {
     "requireCleanWorkingDir": true,
     "tag": false,
-    "commit": false,
-    "push": false
+    "commit": true,
+    "push": true
   },
   "github": {
     "release": true,
