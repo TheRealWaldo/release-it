@@ -7,7 +7,7 @@
   },
   "github": {
     "release": true,
-    "releaseName": "Release ${version}",
+    "releaseName": "Release v${version}",
     "draft": true
   },
   "hooks": {
