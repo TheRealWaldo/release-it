@@ -8,7 +8,7 @@ on:
 jobs:
   release-action:
     runs-on: ubuntu-latest
-    name: release-it Tests
+    name: Release release-it action
     steps:
 
     - name: Setup node.js
