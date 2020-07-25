@@ -26,6 +26,12 @@ Set the git email address to use when release-it commits.
 
 Defaults to `env.GITHUB_EMAIL`.
 
+### `create-branch`
+
+Name of branch to create before pushing.  If not set, or empty, does not create a branch.
+
+Useful if target branch is secured or locked from direct pushes.
+
 ## Outputs
 
 ### `json-result`

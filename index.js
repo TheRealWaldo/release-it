@@ -34,9 +34,11 @@ try {
   console.log("Checking out", currentBranch);
   execSync(`git checkout ${currentBranch}`);
 
-  if (createBranch) {
+  if (createBranch.trim() !== "") {
     console.log("Creating branch", createBranch);
     execSync(`git checkout -b ${createBranch}`);
+    console.log("Setting upstream.");
+    execSync(`git branch --set-upstream-to origin ${createBranch}`);
   }
 
   console.log("Setting git remote.");
