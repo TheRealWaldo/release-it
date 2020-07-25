@@ -55,7 +55,7 @@ Example:
   uses: actions/checkout@v2.3.1
 
 - name: release-it
-  uses: TheRealWaldo/release-it@v0.0.1
+  uses: TheRealWaldo/release-it@v0.0.2
   with:
     json-opts: '{"dry-run": true}'
 ```
