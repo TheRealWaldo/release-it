@@ -22,8 +22,13 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
-    - name: Test running action
-      id: test-run
+    - name: Bump version
+      id: bump-version
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       uses: ./
+      with:
+        create-branch: release
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v3

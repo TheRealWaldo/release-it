@@ -3,7 +3,7 @@
     "requireCleanWorkingDir": true,
     "tag": true,
     "commit": true,
-    "push": true
+    "push": false
   },
   "github": {
     "release": true,
