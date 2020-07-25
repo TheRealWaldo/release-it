@@ -1,5 +1,8 @@
 name: release-it Github Action
 description: Github Action to leverage release-it in Github repositories
+branding:
+  icon: archive
+  color: green
 inputs:
   json-opts:
     description: Json configuration options (merged with file configuration and defaults)
