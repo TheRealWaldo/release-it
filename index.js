@@ -41,7 +41,7 @@ try {
     console.log("Creating branch", createBranch);
     execSync(`git checkout -b ${createBranch}`);
     console.log("Setting upstream.");
-    execSync(`git branch --set-upstream-to origin ${createBranch}`);
+    execSync(`git push -u origin ${createBranch}`);
   }
 
   console.log("Running release-it.");
