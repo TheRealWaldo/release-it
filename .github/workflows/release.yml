@@ -27,8 +27,6 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       uses: ./
-      with:
-        create-branch: release
 
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v3
