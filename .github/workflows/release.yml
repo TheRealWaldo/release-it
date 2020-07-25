@@ -35,4 +35,3 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         source_branch: release
-        pr_draft: true
