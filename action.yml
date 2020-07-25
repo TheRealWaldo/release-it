@@ -4,6 +4,9 @@ inputs:
   json-opts:
     description: Json configuration options (merged with file configuration and defaults)
     required: false
+  create-branch:
+    description: Name of branch to create before pushing.
+    required: false
 outputs:
   json-result:
     description: Serialized Json result object from release-it

@@ -9,6 +9,7 @@ const event = context.payload;
 const remoteRepo = `https://${process.env.GITHUB_ACTOR}:${process.env.GITHUB_TOKEN}@github.com/${process.env.GITHUB_REPOSITORY}.git`;
 const gitUserName = getInput("git-user-name") || "release-it bump";
 const gitUserEmail = getInput("git-user-email") || process.env.GITHUB_EMAIL;
+const createBranch = getInput("create-branch") || "";
 
 let jsonOpts = {};
 
@@ -32,6 +33,11 @@ try {
   const currentBranch = /refs\/[a-zA-Z]+\/(.*)/.exec(process.env.GITHUB_REF)[1];
   console.log("Checking out", currentBranch);
   execSync(`git checkout ${currentBranch}`);
+
+  if (createBranch) {
+    console.log("Creating branch", createBranch);
+    execSync(`git checkout -b ${createBranch}`);
+  }
 
   console.log("Setting git remote.");
   execSync(`git remote set-url origin ${remoteRepo}`);
