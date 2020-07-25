@@ -4,6 +4,12 @@ inputs:
   json-opts:
     description: Json configuration options (merged with file configuration and defaults)
     required: false
+  git-user-name:
+    description: Set the git email address to use when release-it commits.
+    required: false
+  git-user-email:
+    description: Set the git user name to use when release-it commits.
+    required: false
   create-branch:
     description: Name of branch to create before pushing.
     required: false
