@@ -1,4 +1,5 @@
 # release-it Github Action
+![Tests](https://github.com/TheRealWaldo/release-it/workflows/Tests/badge.svg)
 
 Github Action to leverage release-it in Github repositories.  Must be used with actions/checkout@v2 or above.
 
