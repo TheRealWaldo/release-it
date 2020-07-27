@@ -54,6 +54,8 @@ Example:
 ```
 - name: Checkout
   uses: actions/checkout@v2.3.1
+  with:
+    fetch-depth: 0
 
 - name: release-it
   uses: TheRealWaldo/release-it@v0.0.2
