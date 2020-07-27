@@ -31,5 +31,3 @@ jobs:
       with:
         json-opts: '{"dry-run": true}'
 
-    - name: Dump output
-      run: echo "${{ steps.test-run.outputs.json-result }}"
