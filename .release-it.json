@@ -2,6 +2,7 @@
   "git": {
     "requireCleanWorkingDir": true,
     "tag": false,
+    "tagName": "v${version}",
     "commit": true,
     "push": true
   },
