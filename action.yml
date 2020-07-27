@@ -4,12 +4,18 @@ branding:
   icon: archive
   color: green
 inputs:
+  github-token:
+    description: Github token to pass to release-it
+    required: true
+    default: ${{ github.token }}
   json-opts:
     description: Json configuration options (merged with file configuration and defaults)
     required: false
+    default: '{}'
   git-user-name:
     description: Set the git email address to use when release-it commits.
-    required: false
+    required: true
+    default: release-it bump
   git-user-email:
     description: Set the git user name to use when release-it commits.
     required: false

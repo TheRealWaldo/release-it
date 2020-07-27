@@ -9,6 +9,5 @@ Everyone is welcome to contribute!  Here's some instructions to get started.
 brew bundle
 npm install
 
-npx prettier index.js --write
-npx eslint index.js
+npm run build
 ```

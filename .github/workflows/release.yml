@@ -26,8 +26,6 @@ jobs:
 
     - name: Bump version
       id: bump-version
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       uses: ./
       with:
         create-branch: release

@@ -9,6 +9,12 @@ See [release-it/release-it](https://github.com/release-it/release-it) for detail
 
 ## Inputs
 
+### `github-token`
+
+The Github token to pass to release-it.
+
+Defaults to `${{ github.token }}`.
+
 ### `json-opts`
 
 Adds additional options to the release-it command as a serialized Json object.  For example, `'{"dry-run": true}'`.

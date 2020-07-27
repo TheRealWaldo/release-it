@@ -4,7 +4,10 @@
   "description": "Github Action to leverage release-it in Github repositories",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "npx eslint index.js",
+    "lint-fix": "npx eslint index.js --fix",
+    "build": "npx ncc build index.js -m"
   },
   "repository": {
     "type": "git",
@@ -26,9 +29,11 @@
     "release-it": "^13.6.6"
   },
   "devDependencies": {
+    "@zeit/ncc": "^0.22.3",
     "eslint": "^7.5.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-prettier": "^3.1.4",
     "prettier": "^2.0.5"
   }
 }

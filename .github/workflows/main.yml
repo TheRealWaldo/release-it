@@ -22,8 +22,6 @@ jobs:
 
     - name: Test running action
       id: test-run
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       uses: ./
       with:
         json-opts: '{"dry-run": true}'
