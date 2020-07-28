@@ -5,7 +5,7 @@
     "tagName": "v${version}",
     "tagAnnotation": "Release v${version}",
     "commit": true,
-    "commitMessage": "Release v${version} bump",
+    "commitMessage": "chore(release): v${version}",
     "push": true
   },
   "github": {
@@ -26,6 +26,27 @@
       "out": {
         "file": "README.md",
         "type": "text/plain"
+      }
+    },
+    "@release-it/conventional-changelog": {
+      "preset": {
+        "name": "conventionalcommits",
+        "issuePrefixes": ["RIT-"],
+        "issueUrlFormat": "https://nowhereradio.atlassian.net/browse/{{prefix}}{{id}}",
+        "header": "Release notes",
+        "types": [
+          {"type": "feat", "section": "Features"},
+          {"type": "fix", "section": "Bug Fixes"},
+          {"type": "chore", "hidden": true},
+          {"type": "docs", "hidden": true},
+          {"type": "style", "hidden": true},
+          {"type": "refactor", "hidden": true},
+          {"type": "perf", "section": "Performance Enhancements"},
+          {"type": "test", "hidden": true},
+          {"type": "build", "hidden": true},
+          {"type": "ci", "hidden": true},
+          {"type": "revert", "hidden": true}
+        ]
       }
     }
   }
