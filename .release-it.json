@@ -3,7 +3,9 @@
     "requireCleanWorkingDir": true,
     "tag": false,
     "tagName": "v${version}",
+    "tagAnnotation": "Release v${version}",
     "commit": true,
+    "commitMessage": "Release v${version} bump",
     "push": true
   },
   "github": {
@@ -16,7 +18,8 @@
     "after:release": "echo Successfully bumped release to v${version} for ${repo.repository}."
   },
   "npm": {
-    "publish": false
+    "publish": false,
+    "ignoreVersion": true
   },
   "plugins": {
     "@release-it/bumper": {
