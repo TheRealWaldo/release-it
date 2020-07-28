@@ -1,5 +1,5 @@
 import {
-  getInput, setOutput, setFailed, exportVariable, info,
+  getInput, setOutput, setFailed, exportVariable, info, warning, startGroup, endGroup,
 } from '@actions/core';
 import { context } from '@actions/github';
 import { execSync } from 'child_process';
@@ -19,14 +19,17 @@ let jsonOpts = {};
 try {
   jsonOpts = parseJson(getInput('json-opts'));
 } catch (error) {
-  setFailed(error.message);
+  setFailed('Failed to parse jsonOpts', error.message);
 }
 
 if (!event.commits) {
-  info('No commits in event.');
+  warning('No commits in event.');
 }
 
+info('Firing from', context.eventName, 'on', context.ref);
+
 try {
+  startGroup('Git configuration');
   info('Setting git user.');
   execSync(`git config user.name ${gitUserName}`);
 
@@ -35,16 +38,27 @@ try {
 
   info('Setting git remote.');
   execSync(`git remote set-url origin ${remoteRepo}`);
+  endGroup();
 
   if (createBranch.trim() !== '') {
-    info('Creating branch', createBranch);
-    execSync(`git checkout -b ${createBranch}`);
-    info('Setting upstream.');
-    execSync(`git push -u origin ${createBranch}`);
+    startGroup('Git branching');
+    if (execSync(`git ls-remote --heads ${remoteRepo} ${createBranch}`).toString()) {
+      info('Checking out remote branch', createBranch);
+      execSync(`git checkout --track origin/${createBranch}`);
+      // TODO: Now we have to rebase the branch onto our original branch
+
+      // TODO: Update release-it options to force push on completion, if push is done
+    } else {
+      info('Creating branch', createBranch);
+      execSync(`git checkout -b ${createBranch}`);
+      info('Setting upstream.');
+      execSync(`git push -u origin ${createBranch}`);
+    }
+    endGroup();
   }
 
   exportVariable('GITHUB_TOKEN', githubToken);
-  info('Running release-it.');
+  startGroup('release-it');
   release(jsonOpts)
     .then((output) => {
       setOutput('json-result', output);
@@ -52,6 +66,7 @@ try {
     .catch((error) => {
       setFailed(error.message);
     });
+  endGroup();
 } catch (error) {
   setFailed(error.message);
 }
