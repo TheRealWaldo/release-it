@@ -42,6 +42,7 @@ try {
 
   if (createBranch.trim() !== '') {
     startGroup('Git branching');
+    // TODO: If --dry-run, output what we would do, don't do it
     if (execSync(`git ls-remote --heads ${remoteRepo} ${createBranch}`).toString()) {
       info('Checking out remote branch', createBranch);
       execSync(`git checkout --track origin/${createBranch}`);

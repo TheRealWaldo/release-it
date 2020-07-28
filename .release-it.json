@@ -12,6 +12,7 @@
     "draft": true
   },
   "hooks": {
+    "after:bump": "npm run lint-fix && npm run buil"
     "after:release": "echo Successfully bumped release to v${version} for ${repo.repository}."
   },
   "npm": {
