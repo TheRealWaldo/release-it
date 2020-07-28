@@ -46,9 +46,13 @@ try {
     if (execSync(`git ls-remote --heads ${remoteRepo} ${createBranch}`).toString()) {
       info(`Checking out remote branch ${createBranch}`);
       execSync(`git checkout --track origin/${createBranch}`);
-      // TODO: Now we have to rebase the branch onto our original branch
 
-      // TODO: Update release-it options to force push on completion, if push is done
+      // TODO: Add option to merge instead of rebase?
+      info(`Rebasing onto ${context.ref}`);
+      execSync(`git rebase ${context.ref}`);
+
+      info(`Force pushing update to ${createBranch}`);
+      execSync(`git push --force ${createBranch}`);
     } else {
       info(`Creating branch ${createBranch}`);
       execSync(`git checkout -b ${createBranch}`);
