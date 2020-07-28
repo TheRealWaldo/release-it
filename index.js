@@ -52,7 +52,7 @@ try {
       execSync(`git rebase ${context.ref}`);
 
       info(`Force pushing update to ${createBranch}`);
-      execSync(`git push --force ${createBranch}`);
+      execSync('git push --force');
     } else {
       info(`Creating branch ${createBranch}`);
       execSync(`git checkout -b ${createBranch}`);
