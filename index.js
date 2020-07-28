@@ -1,5 +1,5 @@
 import {
-  getInput, setOutput, setFailed, exportVariable, info, warning, startGroup, endGroup,
+  getInput, setOutput, setFailed, exportVariable, info, warning, startGroup, endGroup, group,
 } from '@actions/core';
 import { context } from '@actions/github';
 import { execSync } from 'child_process';
@@ -19,24 +19,24 @@ let jsonOpts = {};
 try {
   jsonOpts = parseJson(getInput('json-opts'));
 } catch (error) {
-  setFailed('Failed to parse jsonOpts', error.message);
+  setFailed(`Failed to parse jsonOpts ${error.message}`);
 }
 
 if (!event.commits) {
   warning('No commits in event.');
 }
 
-info('Firing from', context.eventName, 'on', context.ref);
+info(`Firing from ${context.eventName} on ${context.ref}`);
 
 try {
   startGroup('Git configuration');
-  info('Setting git user.');
+  info(`Setting git user to ${gitUserName}`);
   execSync(`git config user.name ${gitUserName}`);
 
-  info('Setting git email.');
+  info(`Setting git email to ${gitUserEmail}`);
   execSync(`git config user.email "${gitUserEmail}"`);
 
-  info('Setting git remote.');
+  info(`Setting git remote to ${remoteRepo}`);
   execSync(`git remote set-url origin ${remoteRepo}`);
   endGroup();
 
@@ -44,30 +44,36 @@ try {
     startGroup('Git branching');
     // TODO: If --dry-run, output what we would do, don't do it
     if (execSync(`git ls-remote --heads ${remoteRepo} ${createBranch}`).toString()) {
-      info('Checking out remote branch', createBranch);
+      info(`Checking out remote branch ${createBranch}`);
       execSync(`git checkout --track origin/${createBranch}`);
-      // TODO: Now we have to rebase the branch onto our original branch
 
-      // TODO: Update release-it options to force push on completion, if push is done
+      // TODO: Add option to merge instead of rebase?
+      info(`Rebasing onto ${context.ref}`);
+      execSync(`git rebase ${context.ref}`);
+
+      info(`Force pushing update to ${createBranch}`);
+      execSync(`git push --force ${createBranch}`);
     } else {
-      info('Creating branch', createBranch);
+      info(`Creating branch ${createBranch}`);
       execSync(`git checkout -b ${createBranch}`);
-      info('Setting upstream.');
+      info('Setting upstream to origin');
       execSync(`git push -u origin ${createBranch}`);
     }
     endGroup();
   }
 
   exportVariable('GITHUB_TOKEN', githubToken);
-  startGroup('release-it');
-  release(jsonOpts)
-    .then((output) => {
-      setOutput('json-result', output);
-    })
-    .catch((error) => {
-      setFailed(error.message);
-    });
-  endGroup();
+
+  group('release-it', async () => {
+    const response = await release(jsonOpts)
+      .then((output) => {
+        setOutput('json-result', output);
+      })
+      .catch((error) => {
+        setFailed(error.message);
+      });
+    return response;
+  });
 } catch (error) {
   setFailed(error.message);
 }
