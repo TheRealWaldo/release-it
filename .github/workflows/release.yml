@@ -24,12 +24,6 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
-    - name: Lint & Fix
-      run: npm run lint-fix
-
-    - name: Build
-      run: npm run build
-
     - name: Bump version
       id: bump-version
       uses: ./
