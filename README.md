@@ -45,6 +45,12 @@ Name of branch to create before pushing.  If not set, or empty, does not create 
 
 Useful if target branch is secured or locked from direct pushes.
 
+### `auto-resolve-command`
+
+Shell command to execute if a conflict occurs.
+
+Useful if you are commiting build artifacts such as minized code.
+
 ## Outputs
 
 ### `json-result`
