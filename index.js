@@ -9,6 +9,7 @@ const release = require('release-it');
 
 const event = context.payload;
 const githubToken = getInput('github-token');
+const autoResolveCommand = getInput('auto-resolve-command') || '';
 const githubUsername = getInput('github-username');
 const remoteRepo = `https://${githubUsername}:${githubToken}@github.com/${process.env.GITHUB_REPOSITORY}.git`;
 const gitUserName = getInput('git-user-name');
@@ -53,8 +54,20 @@ try {
 
       // TODO: [RIT-37] Add option to merge instead of rebase?
       info(`Rebasing onto ${context.ref}`);
-      execSync(`git rebase ${context.ref}`);
-
+      if (autoResolveCommand.trim() !== '') {
+        try {
+          execSync(`git rebase ${context.ref}`);
+        } catch (error) {
+          if (error.code !== 0) {
+            info('Attempting to auto resolve conflict');
+            execSync(autoResolveCommand);
+            info('Continuing rebase');
+            execSync('GIT_EDITOR=true git rebase --continue');
+          }
+        }
+      } else {
+        execSync(`git rebase ${context.ref}`);
+      }
       info(`Force pushing update to ${createBranch}`);
       execSync('git push --force');
     } else {
@@ -80,6 +93,9 @@ try {
       });
     return response;
   });
+
+  // TODO: Automatically create pull-request if branched
+  // TODO: Automatically update pull-request (title especially) if already exists
 } catch (error) {
   setFailed(error.message);
 }

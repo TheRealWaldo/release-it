@@ -31,9 +31,10 @@ jobs:
       with:
         github-token: ${{ secrets.AUTO_PAT }}
         github-username: TRW-bot
-        git-user-name: TheRealWaldo Bot
-        git-user-email: TRW-bot@inwr.com
+        git-user-name: TheRealWaldo-bot
+        git-user-email: github-bot@inwr.com
         create-branch: release
+        auto-resolve-command: npm run build && git add dist/**
 
     - name: Create pull request
       uses: repo-sync/pull-request@v2.3

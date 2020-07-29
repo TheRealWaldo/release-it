@@ -26,6 +26,9 @@ inputs:
   create-branch:
     description: Name of branch to create before pushing.
     required: false
+  auto-resolve-command:
+    description: Shell command to execute if a conflict occurs.
+    required: false
 outputs:
   json-result:
     description: Serialized Json result object from release-it
