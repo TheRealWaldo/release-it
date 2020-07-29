@@ -55,12 +55,14 @@ try {
       // TODO: [RIT-37] Add option to merge instead of rebase?
       info(`Rebasing onto ${context.ref}`);
       if (autoResolveCommand.trim() !== '') {
-        execSync(`git rebase ${context.ref}`).exit((code) => {
-          if (code !== 0) {
+        try {
+          execSync(`git rebase ${context.ref}`);
+        } catch (error) {
+          if (error.code !== 0) {
             execSync(autoResolveCommand);
             execSync('git rebase --continue');
           }
-        });
+        }
       } else {
         execSync(`git rebase ${context.ref}`);
       }
