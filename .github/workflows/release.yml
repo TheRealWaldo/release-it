@@ -5,6 +5,7 @@ on:
     branches:
       - master
       - release
+      - RIT-39-auto-resolve-build-output-conflicts
 
 jobs:
   release-action:

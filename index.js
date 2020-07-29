@@ -9,6 +9,7 @@ const release = require('release-it');
 
 const event = context.payload;
 const githubToken = getInput('github-token');
+const autoResolveCommand = getInput('auto-resolve-command') || '';
 const githubUsername = getInput('github-username');
 const remoteRepo = `https://${githubUsername}:${githubToken}@github.com/${process.env.GITHUB_REPOSITORY}.git`;
 const gitUserName = getInput('git-user-name');
@@ -53,8 +54,16 @@ try {
 
       // TODO: [RIT-37] Add option to merge instead of rebase?
       info(`Rebasing onto ${context.ref}`);
-      execSync(`git rebase ${context.ref}`);
-
+      if (autoResolveCommand.trim() !== '') {
+        execSync(`git rebase ${context.ref}`).exit((code) => {
+          if (code !== 0) {
+            execSync(autoResolveCommand);
+            execSync('git rebase --continue');
+          }
+        });
+      } else {
+        execSync(`git rebase ${context.ref}`);
+      }
       info(`Force pushing update to ${createBranch}`);
       execSync('git push --force');
     } else {
