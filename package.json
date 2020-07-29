@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "npx eslint index.js",
-    "lint-fix": "npx eslint index.js --fix",
-    "build": "npx ncc build index.js -m"
+    "lint": "npx eslint --cache *.js",
+    "lint-fix": "npx eslint --fix --cache *.js",
+    "build": "npx ncc build *.js -m"
   },
   "repository": {
     "type": "git",
@@ -28,6 +28,8 @@
     "release-it": "^13.6.6"
   },
   "devDependencies": {
+    "@commitlint/cli": "^9.1.2",
+    "@commitlint/config-conventional": "^9.1.1",
     "@release-it/bumper": "^1.4.1",
     "@release-it/conventional-changelog": "^1.1.4",
     "@zeit/ncc": "^0.22.3",
@@ -35,6 +37,8 @@
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
     "prettier": "^2.0.5"
   }
 }
