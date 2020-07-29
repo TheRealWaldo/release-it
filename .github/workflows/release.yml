@@ -31,7 +31,7 @@ jobs:
         create-branch: release
 
     - name: Create pull request
-      uses: repo-sync/pull-request@v2
+      uses: repo-sync/pull-request@v2.3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.GITHUB_PAT_TOKEN }}
         source_branch: release
