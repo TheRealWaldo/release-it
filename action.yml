@@ -17,7 +17,7 @@ inputs:
     required: true
     default: ${{ github.actor }}
   git-user-name:
-    description: Set the git user name to use when release-it commits.
+    description: Set the git users full name to use when release-it commits.
     required: true
     default: release-it bump
   git-user-email:
