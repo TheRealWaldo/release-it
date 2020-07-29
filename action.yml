@@ -12,6 +12,10 @@ inputs:
     description: Json configuration options (merged with file configuration and defaults)
     required: false
     default: '{}'
+  github-username:
+    description: Set the Github username to use for creating/pushing updates.
+    required: true
+    default: ${{ github.actor }}
   git-user-name:
     description: Set the git user name to use when release-it commits.
     required: true
