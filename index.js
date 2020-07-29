@@ -60,7 +60,7 @@ try {
         } catch (error) {
           if (error.code !== 0) {
             execSync(autoResolveCommand);
-            execSync('git rebase --continue');
+            execSync('GIT_EDITOR=true git rebase --continue');
           }
         }
       } else {
