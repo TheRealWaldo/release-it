@@ -29,6 +29,9 @@ jobs:
       uses: ./
       with:
         github-token: ${{ secrets.AUTO_PAT }}
+        github-actor: TRW-bot
+        git-user-name: TheRealWaldo Bot
+        git-user-email: TRW-bot@inwr.com
         create-branch: release
 
     - name: Create pull request
