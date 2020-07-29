@@ -1,1 +1,1 @@
-'*.js': eslint --cache --fix
+'index.js': eslint --cache --fix
