@@ -28,6 +28,7 @@ jobs:
       id: bump-version
       uses: ./
       with:
+        github-token: ${{ secrets.AUTO_PAT }}
         create-branch: release
 
     - name: Create pull request
