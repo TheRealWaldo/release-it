@@ -21,6 +21,12 @@ Adds additional options to the release-it command as a serialized Json object.  
 
 Defaults to `{}`.
 
+### `github-username`
+
+Set the Github username to use for creating/pushing updates.
+
+Defaults to `${{ github.actor }}`
+
 ### `git-user-name`
 
 Set the git user name to use when release-it commits.

@@ -9,7 +9,8 @@ const release = require('release-it');
 
 const event = context.payload;
 const githubToken = getInput('github-token');
-const remoteRepo = `https://${process.env.GITHUB_ACTOR}:${githubToken}@github.com/${process.env.GITHUB_REPOSITORY}.git`;
+const githubUsername = getInput('github-username');
+const remoteRepo = `https://${githubUsername}:${githubToken}@github.com/${process.env.GITHUB_REPOSITORY}.git`;
 const gitUserName = getInput('git-user-name');
 const gitUserEmail = getInput('git-user-email') || process.env.GITHUB_EMAIL;
 const createBranch = getInput('create-branch') || '';
@@ -42,12 +43,12 @@ try {
 
   if (createBranch.trim() !== '') {
     startGroup('Git branching');
-    // TODO: If --dry-run, output what we would do, don't do it
+    // TODO: [RIT-38] If --dry-run, output what we would do, don't do it
     if (execSync(`git ls-remote --heads ${remoteRepo} ${createBranch}`).toString()) {
       info(`Checking out remote branch ${createBranch}`);
       execSync(`git checkout --track origin/${createBranch}`);
 
-      // TODO: Add option to merge instead of rebase?
+      // TODO: [RIT-37] Add option to merge instead of rebase?
       info(`Rebasing onto ${context.ref}`);
       execSync(`git rebase ${context.ref}`);
 
