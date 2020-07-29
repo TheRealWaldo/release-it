@@ -41,8 +41,11 @@ try {
   execSync(`git remote set-url origin ${remoteRepo}`);
   endGroup();
 
-  if (createBranch.trim() !== '') {
-    startGroup('Git branching');
+  startGroup('Git branching');
+  if (context.ref === `refs/heads/${createBranch}`) {
+    // TODO: Rebase onto another branch if a rebase option is selected
+
+  } else if (createBranch.trim() !== '') {
     // TODO: [RIT-38] If --dry-run, output what we would do, don't do it
     if (execSync(`git ls-remote --heads ${remoteRepo} ${createBranch}`).toString()) {
       info(`Checking out remote branch ${createBranch}`);
@@ -60,8 +63,10 @@ try {
       info('Setting upstream to origin');
       execSync(`git push -u origin ${createBranch}`);
     }
-    endGroup();
+  } else {
+    info('Nothing to do');
   }
+  endGroup();
 
   exportVariable('GITHUB_TOKEN', githubToken);
 
