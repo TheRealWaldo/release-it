@@ -32,5 +32,5 @@ jobs:
       id: test-run
       uses: ./
       with:
-        json-opts: '{"dry-run": true}'
+        json-opts: '{"dry-run": true, "git": {"requireCleanWorkingDir": false}}'
 
