@@ -1,0 +1,4 @@
+hooks:
+  pre-commit: lint-staged
+  commit-msg: commitlint -E HUSKY_GIT_PARAMS
+  prepare-commit-msg: sh prepare-commit-msg.sh ${HUSKY_GIT_PARAMS}
