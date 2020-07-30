@@ -83,9 +83,8 @@ try {
     } else {
       info(`Creating branch ${createBranch}`);
       execSync(`git checkout -b ${createBranch}`);
-      // TODO: Set upstream to origin without pushing
       info('Setting upstream to origin');
-      execSync(`git push -u origin ${createBranch}`);
+      execSync(`git branch -u origin/${createBranch}`);
     }
   } else {
     info('Nothing to do');
