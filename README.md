@@ -51,6 +51,12 @@ Shell command to execute if a conflict occurs.
 
 Useful if you are commiting build artifacts such as minized code.
 
+### `rebase-onto`
+
+Reference to rebase onto.
+
+Defaults to the reference that triggered action and will not rebase onto itself i.e. `refs/heads/master`
+
 ## Outputs
 
 ### `json-result`

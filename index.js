@@ -15,6 +15,7 @@ const remoteRepo = `https://${githubUsername}:${githubToken}@github.com/${proces
 const gitUserName = getInput('git-user-name');
 const gitUserEmail = getInput('git-user-email') || process.env.GITHUB_EMAIL;
 const createBranch = getInput('create-branch') || '';
+const rebaseOnto = getInput('rebase-onto') || context.ref;
 
 let jsonOpts = {};
 
@@ -30,6 +31,24 @@ if (!event.commits) {
 
 info(`Firing from ${context.eventName} on ${context.ref}`);
 
+function rebase(baseRef) {
+  info(`Rebasing onto ${baseRef}`);
+  if (autoResolveCommand.trim() !== '') {
+    try {
+      execSync(`git rebase ${baseRef}`);
+    } catch (error) {
+      if (error.code !== 0) {
+        info('Attempting to auto resolve conflict');
+        execSync(autoResolveCommand);
+        info('Continuing rebase');
+        execSync('GIT_EDITOR=true git rebase --continue');
+      }
+    }
+  } else {
+    execSync(`git rebase ${baseRef}`);
+  }
+}
+
 try {
   startGroup('Git configuration');
   info(`Setting git user to ${gitUserName}`);
@@ -44,8 +63,9 @@ try {
 
   startGroup('Git branching');
   if (context.ref === `refs/heads/${createBranch}`) {
-    // TODO: Rebase onto another branch if a rebase option is selected
-
+    if (rebaseOnto !== context.ref) {
+      rebase(rebaseOnto);
+    }
   } else if (createBranch.trim() !== '') {
     // TODO: [RIT-38] If --dry-run, output what we would do, don't do it
     if (execSync(`git ls-remote --heads ${remoteRepo} ${createBranch}`).toString()) {
@@ -53,21 +73,7 @@ try {
       execSync(`git checkout --track origin/${createBranch}`);
 
       // TODO: [RIT-37] Add option to merge instead of rebase?
-      info(`Rebasing onto ${context.ref}`);
-      if (autoResolveCommand.trim() !== '') {
-        try {
-          execSync(`git rebase ${context.ref}`);
-        } catch (error) {
-          if (error.code !== 0) {
-            info('Attempting to auto resolve conflict');
-            execSync(autoResolveCommand);
-            info('Continuing rebase');
-            execSync('GIT_EDITOR=true git rebase --continue');
-          }
-        }
-      } else {
-        execSync(`git rebase ${context.ref}`);
-      }
+      rebase(rebaseOnto);
       info(`Force pushing update to ${createBranch}`);
       execSync('git push --force');
     } else {
