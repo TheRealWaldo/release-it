@@ -9,7 +9,7 @@ const release = require('release-it');
 
 const event = context.payload;
 const githubToken = getInput('github-token');
-const autoResolveCommand = getInput('auto-resolve-command') || '';
+
 const githubUsername = getInput('github-username');
 const remoteRepo = `https://${githubUsername}:${githubToken}@github.com/${process.env.GITHUB_REPOSITORY}.git`;
 const gitUserName = getInput('git-user-name');
@@ -33,20 +33,22 @@ if (!event.commits) {
 info(`Firing from ${context.eventName} on ${context.ref}`);
 
 function rebase(baseRef) {
-  info(`Rebasing onto origin/${baseRef}`);
-  if (autoResolveCommand.trim() !== '') {
-    try {
-      execSync(`git rebase origin/${baseRef}`);
-    } catch (error) {
-      if (error.code !== 0) {
+  const autoResolveCommand = getInput('auto-resolve-command') || '';
+  try {
+    info(`Rebasing onto origin/${baseRef}`);
+    execSync(`git rebase origin/${baseRef}`);
+  } catch (error) {
+    if (error.code !== 0) {
+      if (autoResolveCommand !== '') {
         info('Attempting to auto resolve conflict');
         execSync(autoResolveCommand);
         info('Continuing rebase');
         execSync('GIT_EDITOR=true git rebase --continue');
+      } else {
+        execSync('git rebase --abort');
+        error('Rebase failed');
       }
     }
-  } else {
-    execSync(`git rebase origin/${baseRef}`);
   }
 }
 
