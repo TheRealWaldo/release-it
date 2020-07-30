@@ -71,6 +71,7 @@ try {
     }
   } else if (createBranch !== '') {
     // TODO: [RIT-38] If --dry-run, output what we would do, don't do it
+    info('Checking if remote branch exists');
     if (execSync(`git ls-remote --heads ${remoteRepo} ${createBranch}`).toString()) {
       info(`Checking out remote branch ${createBranch}`);
       execSync(`git checkout --track origin/${createBranch}`);

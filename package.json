@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "npx eslint --cache src/*.js",
     "lint-fix": "npx eslint --fix --cache src/*.js",
-    "build": "npx ncc build src/*.js -m"
+    "build": "npx ncc build src/*.js -m",
+    "lint-build": "npm run lint-staged && npm run build"
   },
   "repository": {
     "type": "git",
@@ -30,7 +31,6 @@
   "devDependencies": {
     "@commitlint/cli": "^9.1.2",
     "@commitlint/config-conventional": "^9.1.1",
-    "@hkdobrev/run-if-changed": "^0.3.1",
     "@release-it/bumper": "^1.4.1",
     "@release-it/conventional-changelog": "^1.1.4",
     "@zeit/ncc": "^0.22.3",
