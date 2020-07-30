@@ -35,6 +35,7 @@ jobs:
         git-user-email: github-bot@inwr.com
         create-branch: release
         auto-resolve-command: npm run build && git add dist/**
+        rebase-onto: master
 
     - name: Create pull request
       uses: repo-sync/pull-request@v2.3
