@@ -32,7 +32,7 @@ jobs:
       with:
         github-token: ${{ secrets.AUTO_PAT }}
         github-username: TRW-bot
-        git-user-name: TheRealWaldo Bot
+        git-user-name: TRW-bot
         git-user-email: TRW-bot@inwr.com
         create-branch: release
         auto-resolve-command: npm run build && git add dist/**

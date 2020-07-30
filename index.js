@@ -59,7 +59,9 @@ try {
           execSync(`git rebase ${context.ref}`);
         } catch (error) {
           if (error.code !== 0) {
+            info('Attempting to auto resolve conflict');
             execSync(autoResolveCommand);
+            info('Continuing rebase');
             execSync('GIT_EDITOR=true git rebase --continue');
           }
         }
@@ -91,6 +93,9 @@ try {
       });
     return response;
   });
+
+  // TODO: Automatically create pull-request if branched
+  // TODO: Automatically update pull-request (title especially) if already exists
 } catch (error) {
   setFailed(error.message);
 }
