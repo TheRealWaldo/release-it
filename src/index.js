@@ -15,7 +15,8 @@ const remoteRepo = `https://${githubUsername}:${githubToken}@github.com/${proces
 const gitUserName = getInput('git-user-name');
 const gitUserEmail = getInput('git-user-email') || process.env.GITHUB_EMAIL;
 const createBranch = getInput('create-branch') || '';
-const rebaseOnto = getInput('rebase-onto') || context.ref;
+const contextBranch = context.ref.split('/')[2];
+const rebaseOnto = getInput('rebase-onto') || contextBranch;
 
 let jsonOpts = {};
 
@@ -32,10 +33,10 @@ if (!event.commits) {
 info(`Firing from ${context.eventName} on ${context.ref}`);
 
 function rebase(baseRef) {
-  info(`Rebasing onto ${baseRef}`);
+  info(`Rebasing onto origin/${baseRef}`);
   if (autoResolveCommand.trim() !== '') {
     try {
-      execSync(`git rebase ${baseRef}`);
+      execSync(`git rebase origin/${baseRef}`);
     } catch (error) {
       if (error.code !== 0) {
         info('Attempting to auto resolve conflict');
@@ -62,11 +63,11 @@ try {
   endGroup();
 
   startGroup('Git branching');
-  if (context.ref === `refs/heads/${createBranch}`) {
-    if (rebaseOnto !== context.ref) {
+  if (contextBranch === createBranch) {
+    if (rebaseOnto !== contextBranch) {
       rebase(rebaseOnto);
     }
-  } else if (createBranch.trim() !== '') {
+  } else if (createBranch !== '') {
     // TODO: [RIT-38] If --dry-run, output what we would do, don't do it
     if (execSync(`git ls-remote --heads ${remoteRepo} ${createBranch}`).toString()) {
       info(`Checking out remote branch ${createBranch}`);
@@ -79,6 +80,7 @@ try {
     } else {
       info(`Creating branch ${createBranch}`);
       execSync(`git checkout -b ${createBranch}`);
+      // TODO: Set upstream to origin without pushing
       info('Setting upstream to origin');
       execSync(`git push -u origin ${createBranch}`);
     }
