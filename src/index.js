@@ -46,7 +46,7 @@ function rebase(baseRef) {
       }
     }
   } else {
-    execSync(`git rebase ${baseRef}`);
+    execSync(`git rebase origin/${baseRef}`);
   }
 }
 
