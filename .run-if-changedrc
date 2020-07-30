@@ -1,0 +1,4 @@
+{
+    'package-lock.json': 'npm install --prefer-offline --no-audit',
+    'index.js': 'npm run build'
+}
