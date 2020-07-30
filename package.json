@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "npx eslint --cache index.js",
-    "lint-fix": "npx eslint --fix --cache index.js",
-    "build": "npx ncc build index.js -m"
+    "lint": "npx eslint --cache src/*.js",
+    "lint-fix": "npx eslint --fix --cache src/*.js",
+    "build": "npx ncc build src/*.js -m"
   },
   "repository": {
     "type": "git",
