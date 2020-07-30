@@ -83,8 +83,9 @@ try {
     } else {
       info(`Creating branch ${createBranch}`);
       execSync(`git checkout -b ${createBranch}`);
+
       info('Setting upstream to origin');
-      execSync(`git branch -u origin/${createBranch}`);
+      execSync(`git push -u origin ${createBranch}`);
     }
   } else {
     info('Nothing to do');
