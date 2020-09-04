@@ -5,7 +5,19 @@ Github Action to leverage release-it in Github repositories.  Must be used with 
 
 Usage of plugins for release-it requires them to be installed in your workspace before hand.
 
+For a node application just do:
+
+```bash
+npm install -D release-it
+```
+
 See [release-it/release-it](https://github.com/release-it/release-it) for details on how release-it itself works.
+
+For plugins, do the same!  Take the super useful [release-it/bumper](https://github.com/release-it/bumper):
+
+```bash
+npm install -D @release-it/bumper
+```
 
 ## Inputs
 
