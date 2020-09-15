@@ -85,6 +85,14 @@ Example:
 }
 ```
 
+### `version`
+
+`version` returned from release-it
+
+### `latestVersion`
+
+`latestVersion` returned from release-it
+
 ## Example Usage
 
 ```

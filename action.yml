@@ -35,6 +35,10 @@ inputs:
 outputs:
   json-result:
     description: Serialized Json result object from release-it
+  version:
+    description: version returned from release-it
+  latestVersion:
+    description: latestVersion retruned from release-it
 runs:
   using: 'node12'
   main: dist/index.js
