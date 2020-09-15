@@ -33,4 +33,3 @@ jobs:
       uses: ./
       with:
         json-opts: '{"dry-run": true, "git": {"requireCleanWorkingDir": false}}'
-

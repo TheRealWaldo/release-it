@@ -98,6 +98,8 @@ try {
     const response = await release(jsonOpts)
       .then((output) => {
         setOutput('json-result', output);
+        setOutput('version', output.version);
+        setOutput('latestVersion', output.latestVersion);
       })
       .catch((error) => {
         setFailed(error.message);
