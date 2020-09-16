@@ -5,6 +5,9 @@ import { context } from '@actions/github';
 import { execSync } from 'child_process';
 import { parse as parseJson } from 'json5';
 
+require('@release-it/bumper');
+require('@release-it/conventional-changelog');
+
 const release = require('release-it');
 
 const event = context.payload;
