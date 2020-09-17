@@ -22,6 +22,7 @@ let jsonOpts = {};
 
 try {
   jsonOpts = parseJson(getInput('json-opts'));
+  jsonOpts.ci = true;
 } catch (error) {
   setFailed(`Failed to parse jsonOpts ${error.message}`);
 }
