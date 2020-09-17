@@ -5,8 +5,18 @@ import { context } from '@actions/github';
 import { execSync } from 'child_process';
 import { parse as parseJson } from 'json5';
 
-require('@release-it/bumper');
-require('@release-it/conventional-changelog');
+import(
+  /* webpackChunkName: "@release-it/bumper" */
+  /* webpackMode: "eager" */
+  /* webpackExports: ["default", "named"] */
+  '@release-it/bumper'
+);
+import(
+  /* webpackChunkName: "@release-it/conventional-changelog" */
+  /* webpackMode: "eager" */
+  /* webpackExports: ["default", "named"] */
+  '@release-it/conventional-changelog'
+);
 
 const release = require('release-it');
 

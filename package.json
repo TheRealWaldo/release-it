@@ -8,6 +8,7 @@
     "lint": "npx eslint --cache src/*.js",
     "lint-fix": "npx eslint --fix --cache src/*.js",
     "build": "npx ncc build src/*.js -m",
+    "build-no-minize": "npx ncc build src/*.js",
     "lint-build": "npm run lint-staged && npm run build"
   },
   "repository": {
