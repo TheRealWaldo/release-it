@@ -23,7 +23,7 @@ jobs:
       run: npm ci
 
     - name: Pull request linter action
-      uses: JulienKode/pull-request-name-linter-action@v0.1.2
+      uses: JulienKode/pull-request-name-linter-action@v0.2.0
 
     - name: Commit Linter
       env:
