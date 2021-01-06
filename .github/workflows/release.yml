@@ -38,7 +38,7 @@ jobs:
         rebase-onto: master
 
     - name: Create pull request
-      uses: repo-sync/pull-request@v2.4.3
+      uses: repo-sync/pull-request@v2.5
       with:
         github_token: ${{ secrets.AUTO_PAT }}
         source_branch: release
