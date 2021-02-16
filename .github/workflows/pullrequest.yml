@@ -28,4 +28,4 @@ jobs:
     - name: Commit Linter
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      uses: wagoid/commitlint-github-action@v2.2.2
+      uses: wagoid/commitlint-github-action@v2.2.3
