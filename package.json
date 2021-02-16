@@ -1,6 +1,6 @@
 {
   "name": "gh-action-release-it",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Github Action to leverage release-it in Github repositories",
   "main": "index.js",
   "scripts": {
