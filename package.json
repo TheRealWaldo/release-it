@@ -34,7 +34,7 @@
     "@release-it/bumper": "^2.0.0",
     "@release-it/conventional-changelog": "^2.0.1",
     "@zeit/ncc": "^0.22.3",
-    "eslint": "^7.25.0",
+    "eslint": "^7.26.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.4.0",
