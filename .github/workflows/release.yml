@@ -44,4 +44,5 @@ jobs:
         source_branch: release
         pr_draft: true
         pr_assignee: TheRealWaldo
+        pr_title: "chore(release): ${{steps.bump-version.outputs.version}}"
         pr_body: ${{steps.bump-version.outputs.changelog}}
