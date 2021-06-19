@@ -106,7 +106,7 @@ Example:
     fetch-depth: 0
 
 - name: release-it
-  uses: TheRealWaldo/release-it@v0.3.0
+  uses: TheRealWaldo/release-it@v0.3.1
   with:
     json-opts: '{"dry-run": true}'
 ```
