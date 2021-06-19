@@ -101,6 +101,7 @@ try {
         setOutput('json-result', output);
         setOutput('version', output.version);
         setOutput('latestVersion', output.latestVersion);
+        setOutput('changelog', output.changelog);
       })
       .catch((error) => {
         setFailed(error.message);
