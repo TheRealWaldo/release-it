@@ -93,6 +93,10 @@ Example:
 
 `latestVersion` returned from release-it
 
+### `changelog`
+
+`changelog` returned from release-it
+
 ## Example Usage
 
 ```
