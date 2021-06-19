@@ -38,7 +38,7 @@ outputs:
   version:
     description: version returned from release-it
   latestVersion:
-    description: latestVersion retruned from release-it
+    description: latestVersion returned from release-it
 runs:
   using: 'node12'
   main: dist/index.js
