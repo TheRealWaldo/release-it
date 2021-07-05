@@ -54,6 +54,8 @@ function rebase(baseRef) {
 }
 
 try {
+  exportVariable('GITHUB_TOKEN', githubToken);
+
   startGroup('Git configuration');
   info(`Setting git user to ${gitUserName}`);
   execSync(`git config user.name ${gitUserName}`);
@@ -92,8 +94,6 @@ try {
     info('Nothing to do');
   }
   endGroup();
-
-  exportVariable('GITHUB_TOKEN', githubToken);
 
   group('release-it', async () => {
     const response = await release(jsonOpts)
