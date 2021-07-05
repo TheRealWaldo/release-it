@@ -45,6 +45,6 @@ jobs:
         draft: true
         title: "chore(release): ${{steps.bump-version.outputs.version}}"
         body: ${{steps.bump-version.outputs.changelog}}
-        base: main
+        base: master
         head: release
         assignee: TheRealWaldo
