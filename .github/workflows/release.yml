@@ -38,10 +38,13 @@ jobs:
         rebase-onto: master
 
     - name: Create pull request
-      uses: TheRealWaldo/pull-request@v0.0.1
+      uses: TheRealWaldo/pull-request@v0.1.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.AUTO_PAT }}
       with:
         draft: true
         title: "chore(release): ${{steps.bump-version.outputs.version}}"
         body: ${{steps.bump-version.outputs.changelog}}
         base: main
         head: release
+        assignee: TheRealWaldo
