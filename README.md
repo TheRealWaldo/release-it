@@ -99,11 +99,13 @@ Example:
 
 ## Example Usage
 
-```
+```yaml
 - name: Checkout
   uses: actions/checkout@v2.3.1
   with:
     fetch-depth: 0
+    # The Checkout actions at v2 and beyond prevent pushes as another user due to persist-credentials being set to true by default
+    persist-credentials: false
 
 - name: release-it
   uses: TheRealWaldo/release-it@v0.3.1
