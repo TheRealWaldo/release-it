@@ -64,5 +64,4 @@ jobs:
         create-branch: release
         auto-resolve-command: npm run build && git add dist/**
         rebase-onto: master
-        no-increment: true
         json-opts: '{"github": {"release": true}, "git": {"tag": true}}'
