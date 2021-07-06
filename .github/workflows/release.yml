@@ -55,7 +55,6 @@ jobs:
 
     - name: Release
       if: "startsWith(toJSON(github.event.head_commit.message), 'chore(release)')"
-      id: bump-version
       uses: ./
       with:
         github-token: ${{ secrets.AUTO_PAT }}
