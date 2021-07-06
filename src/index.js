@@ -29,6 +29,7 @@ try {
 
 jsonOpts.ci = true;
 if (noIncrement) {
+  info('Setting increment to false');
   jsonOpts.increment = false;
 }
 
