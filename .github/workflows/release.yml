@@ -9,7 +9,6 @@ jobs:
   release-action:
     runs-on: ubuntu-latest
     name: Release release-it action
-    if: "github.ref == 'refs/heads/master' && !contains(toJSON(github.event.commits.*.message), 'chore(release)')"
     steps:
 
     - name: Setup node.js
@@ -27,6 +26,7 @@ jobs:
       run: npm ci
 
     - name: Bump version
+      if: "!startsWith(toJSON(github.event.head_commit.message), 'chore(release)')"
       id: bump-version
       uses: ./
       with:
@@ -37,8 +37,11 @@ jobs:
         create-branch: release
         auto-resolve-command: npm run build && git add dist/**
         rebase-onto: master
+        increment: true
+        json-opts: '{"github": {"release": false}}'
 
     - name: Create pull request
+      if: "!startsWith(toJSON(github.event.head_commit.message), 'chore(release)')"
       uses: TheRealWaldo/pull-request@v0.1.0
       env:
         GITHUB_TOKEN: ${{ secrets.AUTO_PAT }}
@@ -49,3 +52,18 @@ jobs:
         base: master
         head: release
         assignee: TheRealWaldo
+
+    - name: Release
+      if: "startsWith(toJSON(github.event.head_commit.message), 'chore(release)')"
+      id: bump-version
+      uses: ./
+      with:
+        github-token: ${{ secrets.AUTO_PAT }}
+        github-username: TRW-bot
+        git-user-name: TheRealWaldo-bot
+        git-user-email: github-bot@inwr.com
+        create-branch: release
+        auto-resolve-command: npm run build && git add dist/**
+        rebase-onto: master
+        increment: false
+        json-opts: '{"github": {"release": true}, "git": {"tag": true}}'
