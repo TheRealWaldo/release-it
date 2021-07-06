@@ -26,7 +26,7 @@ jobs:
       run: npm ci
 
     - name: Bump version
-      if: "!startsWith(toJSON(github.event.head_commit.message), 'chore(release)')"
+      if: "github.ref == 'refs/heads/master' && !contains(toJSON(github.event.commits.*.message), 'chore(release)')"
       id: bump-version
       uses: ./
       with:
@@ -41,7 +41,7 @@ jobs:
         json-opts: '{"github": {"release": false}}'
 
     - name: Create pull request
-      if: "!startsWith(toJSON(github.event.head_commit.message), 'chore(release)')"
+      if: "github.ref == 'refs/heads/master' && !contains(toJSON(github.event.commits.*.message), 'chore(release)')"
       uses: TheRealWaldo/pull-request@v0.1.0
       env:
         GITHUB_TOKEN: ${{ secrets.AUTO_PAT }}
@@ -54,7 +54,7 @@ jobs:
         assignee: TheRealWaldo
 
     - name: Release
-      if: "startsWith(toJSON(github.event.head_commit.message), 'chore(release)')"
+      if: "github.ref == 'refs/heads/master' && contains(toJSON(github.event.commits.*.message), 'chore(release)')"
       uses: ./
       with:
         github-token: ${{ secrets.AUTO_PAT }}
