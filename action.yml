@@ -32,6 +32,10 @@ inputs:
   rebase-onto:
     description: Branch to rebase onto.
     required: false
+  increment:
+    description: Whether release-it should increment the version or not
+    required: false
+    default: "true"
 outputs:
   json-result:
     description: Serialized Json result object from release-it
