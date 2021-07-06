@@ -82,7 +82,7 @@ try {
       // TODO: [RIT-37] Add option to merge instead of rebase?
       rebase(rebaseOnto);
       info(`Force pushing update to ${createBranch}`);
-      execSync('git push --force');
+      execSync(`git push "${remoteRepo}" --force`);
     } else {
       info(`Creating branch ${createBranch}`);
       execSync(`git checkout -b ${createBranch}`);
