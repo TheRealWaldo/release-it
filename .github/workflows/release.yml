@@ -57,11 +57,6 @@ jobs:
       if: "github.ref == 'refs/heads/master' && contains(toJSON(github.event.commits.*.message), 'chore(release)')"
       uses: ./
       with:
+        no-increment: true
         github-token: ${{ secrets.AUTO_PAT }}
-        github-username: TRW-bot
-        git-user-name: TheRealWaldo-bot
-        git-user-email: github-bot@inwr.com
-        create-branch: release
-        auto-resolve-command: npm run build && git add dist/**
-        rebase-onto: master
-        json-opts: '{"github": {"release": true}, "git": {"tag": true}}'
+        json-opts: '{"github": {"release": true}, "git": {"tag": true, "commit": false}}'
