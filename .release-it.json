@@ -19,6 +19,10 @@
   "npm": false,
   "plugins": {
     "@release-it/bumper": {
+      "in": {
+        "file": "VERSION",
+        "type": "text/plain"
+      },
       "out": {
         "file": "README.md",
         "type": "text/plain"
