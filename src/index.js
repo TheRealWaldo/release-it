@@ -17,7 +17,7 @@ const gitUserEmail = getInput('git-user-email') || process.env.GITHUB_EMAIL;
 const createBranch = getInput('create-branch') || '';
 const contextBranch = context.ref.split('/')[2];
 const rebaseOnto = getInput('rebase-onto') || contextBranch;
-const increment = (getInput('increment') === 'true');
+const noIncrement = (getInput('no-increment') === 'true');
 
 let jsonOpts = {};
 
@@ -28,7 +28,9 @@ try {
 }
 
 jsonOpts.ci = true;
-jsonOpts.increment = increment;
+if (noIncrement) {
+  jsonOpts.increment = false;
+}
 
 if (!event.commits) {
   warning('No commits in event.');

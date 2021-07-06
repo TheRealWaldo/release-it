@@ -37,7 +37,7 @@ jobs:
         create-branch: release
         auto-resolve-command: npm run build && git add dist/**
         rebase-onto: master
-        increment: true
+        no-increment: true
         json-opts: '{"github": {"release": false}}'
 
     - name: Create pull request
@@ -64,5 +64,5 @@ jobs:
         create-branch: release
         auto-resolve-command: npm run build && git add dist/**
         rebase-onto: master
-        increment: false
+        no-increment: false
         json-opts: '{"github": {"release": true}, "git": {"tag": true}}'

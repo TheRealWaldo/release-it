@@ -27,11 +27,11 @@ The Github token to pass to release-it.
 
 Defaults to `${{ github.token }}`.
 
-### `increment`
+### `no-increment`
 
 Whether release-it should increment the version or not.
 
-Defaults to `true`.
+Defaults to `false`.
 
 ### `json-opts`
 
