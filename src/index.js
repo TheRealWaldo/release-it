@@ -17,15 +17,18 @@ const gitUserEmail = getInput('git-user-email') || process.env.GITHUB_EMAIL;
 const createBranch = getInput('create-branch') || '';
 const contextBranch = context.ref.split('/')[2];
 const rebaseOnto = getInput('rebase-onto') || contextBranch;
+const increment = (getInput('increment') === 'true');
 
 let jsonOpts = {};
 
 try {
   jsonOpts = parseJson(getInput('json-opts'));
-  jsonOpts.ci = true;
 } catch (error) {
   setFailed(`Failed to parse jsonOpts ${error.message}`);
 }
+
+jsonOpts.ci = true;
+jsonOpts.increment = increment;
 
 if (!event.commits) {
   warning('No commits in event.');

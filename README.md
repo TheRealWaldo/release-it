@@ -27,6 +27,12 @@ The Github token to pass to release-it.
 
 Defaults to `${{ github.token }}`.
 
+### `increment`
+
+Whether release-it should increment the version or not.
+
+Defaults to `true`.
+
 ### `json-opts`
 
 Adds additional options to the release-it command as a serialized Json object.  For example, `'{"dry-run": true}'`.
