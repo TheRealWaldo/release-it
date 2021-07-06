@@ -76,7 +76,7 @@ Defaults to the branch that triggered action and will not rebase onto itself.
 Serialized Json return object from release-it.
 
 Example:
-```
+```json
 {
   name: 'gh-action-release-it',
   changelog: undefined,
