@@ -114,7 +114,7 @@ Example:
     persist-credentials: false
 
 - name: release-it
-  uses: TheRealWaldo/release-it@v0.4.0
+  uses: TheRealWaldo/release-it@0.5.0
   with:
     json-opts: '{"dry-run": true}'
 ```
