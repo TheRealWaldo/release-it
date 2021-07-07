@@ -19,10 +19,6 @@
   "npm": false,
   "plugins": {
     "@release-it/bumper": {
-      "in": {
-        "file": "VERSION",
-        "type": "text/plain"
-      },
       "out": ["README.md", "VERSION"]
     },
     "@release-it/conventional-changelog": {
