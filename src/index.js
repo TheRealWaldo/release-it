@@ -24,8 +24,6 @@ const noIncrement = (getInput('no-increment') === 'true');
 
 // TODO: Read .release-it.json plugins and install them with --no-save
 
-require('@nodelib/fs.stat');
-
 async function run() {
   await manager.install('@release-it/bumper');
   await manager.install('@release-it/conventional-changelog');
