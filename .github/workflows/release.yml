@@ -59,5 +59,15 @@ jobs:
       with:
         no-increment: true
         github-token: ${{ secrets.AUTO_PAT }}
-        json-opts: '{"github": {"release": true}, "git": {"tag": true, "commit": false}, "plugins": { "@release-it/bumper": { "in": { "file": "VERSION", "type": "text/plain" } } } }'
+        json-opts: >
+          {
+            "github": { "release": true },
+            "git": { "tag": true, "commit": false },
+            "plugins": {
+               "@release-it/bumper": {
+                 "in": { "file": "VERSION", "type": "text/plain" }
+               },
+               "@release-it/conventional-changelog": { "ignoreRecommendedBump": true }
+            }
+          }
 
