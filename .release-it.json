@@ -38,7 +38,7 @@
           { "type": "test", "hidden": true },
           { "type": "build", "hidden": true },
           { "type": "ci", "hidden": true },
-          { "type": "revert", "hidden": true }
+          { "type": "revert", "section": "Reversions" }
         ]
       }
     }
