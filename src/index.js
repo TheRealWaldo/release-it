@@ -114,7 +114,7 @@ try {
 
   if (remoteBranchExists) {
     // TODO: [RIT-37] Add option to merge instead of rebase?
-    rebase(`origin/${createBranch}`);
+    rebase(createBranch);
     info('Setting upstream');
     execSync(`git branch -u origin/${createBranch}`);
     info(`Force pushing update to ${createBranch}`);
