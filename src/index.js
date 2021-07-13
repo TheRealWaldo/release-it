@@ -43,11 +43,11 @@ info(`Firing from ${context.eventName} on ${context.ref}`);
 function rebase(baseRef) {
   const autoResolveCommand = getInput('auto-resolve-command') || '';
   try {
-    info(`Rebasing onto origin/${baseRef}`);
+    info(`Rebasing onto ${baseRef}`);
     if (autoResolveCommand) {
-      execSync(`git rebase origin/${baseRef} --exec "${autoResolveCommand}" --empty=drop`);
+      execSync(`git rebase ${baseRef} --exec "${autoResolveCommand}" --empty=drop`);
     } else {
-      execSync(`git rebase origin/${baseRef} --empty=drop`);
+      execSync(`git rebase ${baseRef} --empty=drop`);
     }
   } catch (error) {
     if (error.code !== 0) {
@@ -74,26 +74,23 @@ try {
   startGroup('Git branching');
   if (contextBranch === createBranch) {
     if (rebaseOnto !== contextBranch) {
-      rebase(rebaseOnto);
+      rebase(`origin/${rebaseOnto}`);
     }
   } else if (createBranch !== '') {
     // TODO: [RIT-38] If --dry-run, output what we would do, don't do it
-    info(`Creating branch ${createBranch}`);
-    execSync(`git checkout -b ${createBranch}`);
-
+    if (jsonOpts.git !== Object) {
+      jsonOpts.git = {};
+    }
+    jsonOpts.git.requireUpstream = false;
     info('Checking if remote branch exists');
     remoteBranchExists = (execSync(`git ls-remote --heads ${remoteRepo} ${createBranch}`).toString());
     if (!remoteBranchExists) {
-      info('Branch does not yet exist, setting upstream to origin');
-      execSync(`git push -u origin ${createBranch}`);
+      info(`Branch does not yet exist, creating branch ${createBranch}`);
+      execSync(`git checkout -b ${createBranch}`);
     } else {
+      execSync('git checkout -b temp-branch');
       info('Branch exists on remote, disabling push on release-it to do rebase post bump');
-      if (jsonOpts.git !== Object) {
-        jsonOpts.git = {};
-      }
       jsonOpts.git.push = false;
-      info('Setting upstream');
-      execSync(`git branch -u origin/${createBranch}`);
     }
   } else {
     info('No branching to do');
@@ -109,8 +106,11 @@ try {
         setOutput('changelog', output.changelog);
 
         if (remoteBranchExists) {
+          info(`Checking out remote branch ${createBranch}`);
+          execSync(`git checkout --track origin/${createBranch}`);
+
           // TODO: [RIT-37] Add option to merge instead of rebase?
-          rebase(createBranch);
+          rebase('temp-branch');
 
           info(`Force pushing update to ${createBranch}`);
           execSync(`git push "${remoteRepo}" --force`);
