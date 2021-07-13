@@ -105,24 +105,24 @@ try {
         setOutput('version', output.version);
         setOutput('latestVersion', output.latestVersion);
         setOutput('changelog', output.changelog);
+
+        if (remoteBranchExists) {
+          // TODO: [RIT-37] Add option to merge instead of rebase?
+          rebase(createBranch);
+          info('Setting upstream');
+          execSync(`git branch -u origin/${createBranch}`);
+          info(`Force pushing update to ${createBranch}`);
+          execSync(`git push "${remoteRepo}" --force`);
+        }
+
+        // TODO: Automatically create pull-request if branched
+        // TODO: Automatically update pull-request (title especially) if already exists
       })
       .catch((error) => {
         setFailed(error.message);
       });
     return response;
   });
-
-  if (remoteBranchExists) {
-    // TODO: [RIT-37] Add option to merge instead of rebase?
-    rebase(createBranch);
-    info('Setting upstream');
-    execSync(`git branch -u origin/${createBranch}`);
-    info(`Force pushing update to ${createBranch}`);
-    execSync(`git push "${remoteRepo}" --force`);
-  }
-
-  // TODO: Automatically create pull-request if branched
-  // TODO: Automatically update pull-request (title especially) if already exists
 } catch (error) {
   setFailed(error.message);
 }
