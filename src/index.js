@@ -44,15 +44,18 @@ function rebase(baseRef) {
   const autoResolveCommand = getInput('auto-resolve-command') || '';
   try {
     info(`Rebasing onto ${baseRef}`);
-    if (autoResolveCommand) {
-      execSync(`git rebase ${baseRef} --exec "${autoResolveCommand}" --empty=drop`);
-    } else {
-      execSync(`git rebase ${baseRef} --empty=drop`);
-    }
+    execSync(`git rebase ${baseRef} --empty=drop`);
   } catch (error) {
     if (error.code !== 0) {
-      execSync('git rebase --abort');
-      error('Rebase failed');
+      if (autoResolveCommand !== '') {
+        info('Attempting to auto resolve conflict');
+        execSync(autoResolveCommand);
+        info('Continuing rebase');
+        execSync('GIT_EDITOR=true git rebase --continue');
+      } else {
+        execSync('git rebase --abort');
+        error('Rebase failed');
+      }
     }
   }
 }
