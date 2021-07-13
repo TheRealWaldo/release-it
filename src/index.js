@@ -20,6 +20,7 @@ const rebaseOnto = getInput('rebase-onto') || contextBranch;
 const noIncrement = (getInput('no-increment') === 'true');
 
 let jsonOpts = {};
+let remoteBranchExists = false;
 
 try {
   jsonOpts = parseJson(getInput('json-opts'));
@@ -43,18 +44,15 @@ function rebase(baseRef) {
   const autoResolveCommand = getInput('auto-resolve-command') || '';
   try {
     info(`Rebasing onto origin/${baseRef}`);
-    execSync(`git rebase origin/${baseRef}`);
+    if (autoResolveCommand) {
+      execSync(`git rebase origin/${baseRef} --exec "${autoResolveCommand}" --empty=drop`);
+    } else {
+      execSync(`git rebase origin/${baseRef} --empty=drop`);
+    }
   } catch (error) {
     if (error.code !== 0) {
-      if (autoResolveCommand !== '') {
-        info('Attempting to auto resolve conflict');
-        execSync(autoResolveCommand);
-        info('Continuing rebase');
-        execSync('GIT_EDITOR=true git rebase --continue');
-      } else {
-        execSync('git rebase --abort');
-        error('Rebase failed');
-      }
+      execSync('git rebase --abort');
+      error('Rebase failed');
     }
   }
 }
@@ -80,24 +78,20 @@ try {
     }
   } else if (createBranch !== '') {
     // TODO: [RIT-38] If --dry-run, output what we would do, don't do it
+    info(`Creating branch ${createBranch}`);
+    execSync(`git checkout -b ${createBranch}`);
+
     info('Checking if remote branch exists');
-    if (execSync(`git ls-remote --heads ${remoteRepo} ${createBranch}`).toString()) {
-      info(`Checking out remote branch ${createBranch}`);
-      execSync(`git checkout --track origin/${createBranch}`);
-
-      // TODO: [RIT-37] Add option to merge instead of rebase?
-      rebase(rebaseOnto);
-      info(`Force pushing update to ${createBranch}`);
-      execSync(`git push "${remoteRepo}" --force`);
-    } else {
-      info(`Creating branch ${createBranch}`);
-      execSync(`git checkout -b ${createBranch}`);
-
-      info('Setting upstream to origin');
+    remoteBranchExists = (execSync(`git ls-remote --heads ${remoteRepo} ${createBranch}`).toString());
+    if (!remoteBranchExists) {
+      info('Branch does not yet exist, setting upstream to origin');
       execSync(`git push -u origin ${createBranch}`);
+    } else {
+      info('Branch exists on remote, disabling push on release-it to do rebase post bump');
+      jsonOpts.git.push = false;
     }
   } else {
-    info('Nothing to do');
+    info('No branching to do');
   }
   endGroup();
 
@@ -114,6 +108,15 @@ try {
       });
     return response;
   });
+
+  if (remoteBranchExists) {
+    // TODO: [RIT-37] Add option to merge instead of rebase?
+    rebase(`origin/${createBranch}`);
+    info('Setting upstream');
+    execSync(`git branch -u origin/${createBranch}`);
+    info(`Force pushing update to ${createBranch}`);
+    execSync(`git push "${remoteRepo}" --force`);
+  }
 
   // TODO: Automatically create pull-request if branched
   // TODO: Automatically update pull-request (title especially) if already exists
