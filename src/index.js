@@ -88,6 +88,9 @@ try {
       execSync(`git push -u origin ${createBranch}`);
     } else {
       info('Branch exists on remote, disabling push on release-it to do rebase post bump');
+      if (jsonOpts.git !== Object) {
+        jsonOpts.git = {};
+      }
       jsonOpts.git.push = false;
     }
   } else {
