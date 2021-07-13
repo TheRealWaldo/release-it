@@ -92,6 +92,8 @@ try {
         jsonOpts.git = {};
       }
       jsonOpts.git.push = false;
+      info('Setting upstream');
+      execSync(`git branch -u origin/${createBranch}`);
     }
   } else {
     info('No branching to do');
@@ -109,8 +111,7 @@ try {
         if (remoteBranchExists) {
           // TODO: [RIT-37] Add option to merge instead of rebase?
           rebase(createBranch);
-          info('Setting upstream');
-          execSync(`git branch -u origin/${createBranch}`);
+
           info(`Force pushing update to ${createBranch}`);
           execSync(`git push "${remoteRepo}" --force`);
         }
