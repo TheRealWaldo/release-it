@@ -1,13 +1,10 @@
 # Contributing
 
-Everyone is welcome to contribute!  Here's some instructions to get started.
+Everyone is welcome to contribute!  Here are some instructions to get started.  We assume you already have npm installed.
 
 ## Build
 
-```
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-brew bundle
+```zsh
 npm install
-
-npm run build
+npm run lint-fix-build
 ```
