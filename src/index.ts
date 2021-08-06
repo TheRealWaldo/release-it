@@ -82,7 +82,9 @@ try {
     }
   } else if (createBranch !== '') {
     // TODO: [RIT-38] If --dry-run, output what we would do, don't do it
-    jsonOpts.git.requireUpstream = false;
+    if (jsonOpts.git === undefined) {
+      jsonOpts.git = { requireUpstream: false };
+    } else jsonOpts.git.requireUpstream = false;
     info('Checking if remote branch exists');
     remoteBranchExists = execSync(`git ls-remote --heads ${remoteRepo} ${createBranch}`).toString();
     if (remoteBranchExists) {
