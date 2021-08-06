@@ -128,6 +128,8 @@ try {
 
     // TODO: Automatically create pull-request if branched
     // TODO: Automatically update pull-request (title especially) if already exists
+  }).catch((reason) => {
+    setFailed(reason.message);
   });
 } catch (error) {
   setFailed(error.message);
