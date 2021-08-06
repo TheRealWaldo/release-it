@@ -13,7 +13,7 @@ import { context } from '@actions/github';
 import { execSync } from 'child_process';
 import { parse as parseJson } from 'json5';
 
-import { runTasks, options } from 'release-it';
+import { default as release, options } from 'release-it';
 
 const event = context.payload;
 
@@ -101,7 +101,7 @@ try {
   endGroup();
 
   group('release-it', async () => {
-    await runTasks(jsonOpts)
+    await release(jsonOpts)
       .catch((reason) => {
         throw reason;
       })

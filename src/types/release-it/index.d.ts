@@ -1,5 +1,5 @@
 declare module 'release-it' {
-  export interface options {
+  export declare interface options {
     increment?: boolean;
     git?: {
       requireCleanWorkingDir?: boolean;
@@ -12,8 +12,8 @@ declare module 'release-it' {
       push?: boolean;
     };
   }
-  export function runTasks(
-    opts: options,
-    di?: options
+  declare function fn(
+    options: options
   ): Promise<{ name: string; changelog: string; latestVersion: string; version: string }>;
+  export = fn;
 }
