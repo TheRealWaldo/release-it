@@ -101,23 +101,27 @@ try {
   endGroup();
 
   group('release-it', async () => {
-    const response = await runTasks(jsonOpts);
+    await runTasks(jsonOpts)
+      .catch((reason) => {
+        throw reason;
+      })
+      .then((response) => {
+        setOutput('json-result', response);
+        setOutput('version', response.version);
+        setOutput('latestVersion', response.latestVersion);
+        setOutput('changelog', response.changelog);
 
-    setOutput('json-result', response);
-    setOutput('version', response.version);
-    setOutput('latestVersion', response.latestVersion);
-    setOutput('changelog', response.changelog);
+        if (remoteBranchExists) {
+          info(`Checking out remote branch ${createBranch}`);
+          execSync(`git checkout --track origin/${createBranch}`);
 
-    if (remoteBranchExists) {
-      info(`Checking out remote branch ${createBranch}`);
-      execSync(`git checkout --track origin/${createBranch}`);
+          // TODO: [RIT-37] Add option to merge instead of rebase?
+          rebase('temp-branch');
 
-      // TODO: [RIT-37] Add option to merge instead of rebase?
-      rebase('temp-branch');
-
-      info(`Force pushing update to ${createBranch}`);
-      execSync(`git push "${remoteRepo}" --force`);
-    }
+          info(`Force pushing update to ${createBranch}`);
+          execSync(`git push "${remoteRepo}" --force`);
+        }
+      });
 
     // TODO: Automatically create pull-request if branched
     // TODO: Automatically update pull-request (title especially) if already exists
