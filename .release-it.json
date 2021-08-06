@@ -14,7 +14,7 @@
     "draft": false
   },
   "hooks": {
-    "after:release": "echo Successfully bumped release to v${version} for ${repo.repository}."
+    "after:release": "echo Successfully bumped release to v${version}."
   },
   "npm": false,
   "plugins": {
