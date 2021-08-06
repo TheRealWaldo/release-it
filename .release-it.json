@@ -24,8 +24,6 @@
     "@release-it/conventional-changelog": {
       "preset": {
         "name": "conventionalcommits",
-        "issuePrefixes": ["RIT-"],
-        "issueUrlFormat": "https://nowhereradio.atlassian.net/browse/{{prefix}}{{id}}",
         "header": "Release notes",
         "types": [
           { "type": "feat", "section": "Features" },
