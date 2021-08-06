@@ -1,11 +1,19 @@
 import {
-  getInput, setOutput, setFailed, exportVariable, info, warning, startGroup, endGroup, group,
+  getInput,
+  setOutput,
+  setFailed,
+  exportVariable,
+  info,
+  warning,
+  startGroup,
+  endGroup,
+  group,
 } from '@actions/core';
 import { context } from '@actions/github';
 import { execSync } from 'child_process';
 import { parse as parseJson } from 'json5';
 
-const release = require('release-it');
+import { runTasks, options } from 'release-it';
 
 const event = context.payload;
 const githubToken = getInput('github-token');
@@ -17,22 +25,9 @@ const gitUserEmail = getInput('git-user-email') || process.env.GITHUB_EMAIL;
 const createBranch = getInput('create-branch') || '';
 const contextBranch = context.ref.split('/')[2];
 const rebaseOnto = getInput('rebase-onto') || contextBranch;
-const noIncrement = (getInput('no-increment') === 'true');
+const noIncrement = getInput('no-increment') === 'true';
 
-let jsonOpts = {};
-let remoteBranchExists = false;
-
-try {
-  jsonOpts = parseJson(getInput('json-opts'));
-} catch (error) {
-  setFailed(`Failed to parse jsonOpts ${error.message}`);
-}
-
-jsonOpts.ci = true;
-if (noIncrement) {
-  info('Setting increment to false');
-  jsonOpts.increment = false;
-}
+let remoteBranchExists: string;
 
 if (!event.commits) {
   warning('No commits in event.');
@@ -40,7 +35,7 @@ if (!event.commits) {
 
 info(`Firing from ${context.eventName} on ${context.ref}`);
 
-function rebase(baseRef) {
+function rebase(baseRef: string) {
   const autoResolveCommand = getInput('auto-resolve-command') || '';
   try {
     info(`Rebasing onto ${baseRef}`);
@@ -61,6 +56,12 @@ function rebase(baseRef) {
 }
 
 try {
+  const jsonOpts: options = parseJson(getInput('json-opts'));
+  if (noIncrement) {
+    info('Setting increment to false');
+    jsonOpts.increment = false;
+  }
+
   exportVariable('GITHUB_TOKEN', githubToken);
 
   startGroup('Git configuration');
@@ -81,13 +82,10 @@ try {
     }
   } else if (createBranch !== '') {
     // TODO: [RIT-38] If --dry-run, output what we would do, don't do it
-    if (jsonOpts.git !== Object) {
-      jsonOpts.git = {};
-    }
     jsonOpts.git.requireUpstream = false;
     info('Checking if remote branch exists');
-    remoteBranchExists = (execSync(`git ls-remote --heads ${remoteRepo} ${createBranch}`).toString());
-    if (!remoteBranchExists) {
+    remoteBranchExists = execSync(`git ls-remote --heads ${remoteRepo} ${createBranch}`).toString();
+    if (remoteBranchExists) {
       info(`Branch does not yet exist, creating branch ${createBranch}`);
       execSync(`git checkout -b ${createBranch}`);
     } else {
@@ -101,31 +99,26 @@ try {
   endGroup();
 
   group('release-it', async () => {
-    const response = await release(jsonOpts)
-      .then((output) => {
-        setOutput('json-result', output);
-        setOutput('version', output.version);
-        setOutput('latestVersion', output.latestVersion);
-        setOutput('changelog', output.changelog);
+    const response = await runTasks(jsonOpts);
 
-        if (remoteBranchExists) {
-          info(`Checking out remote branch ${createBranch}`);
-          execSync(`git checkout --track origin/${createBranch}`);
+    setOutput('json-result', response);
+    setOutput('version', response.version);
+    setOutput('latestVersion', response.latestVersion);
+    setOutput('changelog', response.changelog);
 
-          // TODO: [RIT-37] Add option to merge instead of rebase?
-          rebase('temp-branch');
+    if (remoteBranchExists) {
+      info(`Checking out remote branch ${createBranch}`);
+      execSync(`git checkout --track origin/${createBranch}`);
 
-          info(`Force pushing update to ${createBranch}`);
-          execSync(`git push "${remoteRepo}" --force`);
-        }
+      // TODO: [RIT-37] Add option to merge instead of rebase?
+      rebase('temp-branch');
 
-        // TODO: Automatically create pull-request if branched
-        // TODO: Automatically update pull-request (title especially) if already exists
-      })
-      .catch((error) => {
-        setFailed(error.message);
-      });
-    return response;
+      info(`Force pushing update to ${createBranch}`);
+      execSync(`git push "${remoteRepo}" --force`);
+    }
+
+    // TODO: Automatically create pull-request if branched
+    // TODO: Automatically update pull-request (title especially) if already exists
   });
 } catch (error) {
   setFailed(error.message);
