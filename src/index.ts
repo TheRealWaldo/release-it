@@ -16,18 +16,6 @@ import { parse as parseJson } from 'json5';
 import { runTasks, options } from 'release-it';
 
 const event = context.payload;
-const githubToken = getInput('github-token');
-
-const githubUsername = getInput('github-username');
-const remoteRepo = `https://${githubUsername}:${githubToken}@github.com/${process.env.GITHUB_REPOSITORY}.git`;
-const gitUserName = getInput('git-user-name');
-const gitUserEmail = getInput('git-user-email') || process.env.GITHUB_EMAIL;
-const createBranch = getInput('create-branch') || '';
-const contextBranch = context.ref.split('/')[2];
-const rebaseOnto = getInput('rebase-onto') || contextBranch;
-const noIncrement = getInput('no-increment') === 'true';
-
-let remoteBranchExists: string;
 
 if (!event.commits) {
   warning('No commits in event.');
@@ -56,6 +44,18 @@ function rebase(baseRef: string) {
 }
 
 try {
+  const githubToken = getInput('github-token', { required: true });
+  const githubUsername = getInput('github-username', { required: true });
+  const remoteRepo = `https://${githubUsername}:${githubToken}@github.com/${process.env.GITHUB_REPOSITORY}.git`;
+  const gitUserName = getInput('git-user-name', { required: true });
+  const gitUserEmail = getInput('git-user-email') || process.env.GITHUB_EMAIL;
+  const createBranch = getInput('create-branch') || '';
+  const contextBranch = context.ref.split('/')[2];
+  const rebaseOnto = getInput('rebase-onto') || contextBranch;
+  const noIncrement = getInput('no-increment') === 'true';
+
+  let remoteBranchExists: string;
+
   const jsonOpts: options = parseJson(getInput('json-opts'));
   if (noIncrement) {
     info('Setting increment to false');
