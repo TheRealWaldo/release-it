@@ -101,7 +101,7 @@ try {
   endGroup();
 
   group('release-it', async () => {
-    await release(jsonOpts)
+    return await release(jsonOpts)
       .catch((reason) => {
         throw reason;
       })
@@ -121,6 +121,9 @@ try {
           info(`Force pushing update to ${createBranch}`);
           execSync(`git push "${remoteRepo}" --force`);
         }
+      })
+      .catch((reason) => {
+        throw reason;
       });
 
     // TODO: Automatically create pull-request if branched
