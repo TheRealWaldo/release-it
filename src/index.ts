@@ -54,7 +54,7 @@ try {
   const rebaseOnto = getInput('rebase-onto') || contextBranch;
   const noIncrement = getInput('no-increment') === 'true';
 
-  let remoteBranchExists: string;
+  let remoteBranchExists = '';
 
   const jsonOpts: options = parseJson(getInput('json-opts'));
   if (noIncrement) {
