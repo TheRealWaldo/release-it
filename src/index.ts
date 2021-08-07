@@ -87,7 +87,7 @@ try {
     } else jsonOpts.git.requireUpstream = false;
     info('Checking if remote branch exists');
     remoteBranchExists = execSync(`git ls-remote --heads ${remoteRepo} ${createBranch}`).toString();
-    if (remoteBranchExists) {
+    if (remoteBranchExists === '') {
       info(`Branch does not yet exist, creating branch ${createBranch}`);
       execSync(`git checkout -b ${createBranch}`);
     } else {
@@ -111,7 +111,7 @@ try {
         setOutput('latestVersion', response.latestVersion);
         setOutput('changelog', response.changelog);
 
-        if (remoteBranchExists) {
+        if (remoteBranchExists !== '') {
           info(`Checking out remote branch ${createBranch}`);
           execSync(`git checkout --track origin/${createBranch}`);
 
