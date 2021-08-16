@@ -33,6 +33,12 @@ Whether release-it should increment the version or not.
 
 Defaults to `false`.
 
+### `debug`
+
+Whether to run release-it in debug mode or not.
+
+Defaults to `false`.
+
 ### `json-opts`
 
 Adds additional options to the release-it command as a serialized Json object.  For example, `'{"dry-run": true}'`.

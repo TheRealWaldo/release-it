@@ -10,64 +10,68 @@ jobs:
     runs-on: ubuntu-latest
     name: Release release-it action
     steps:
+      - name: Setup node.js
+        uses: actions/setup-node@v2.4.0
+        with:
+          node-version: 12
 
-    - name: Setup node.js
-      uses: actions/setup-node@v2.4.0
-      with:
-        node-version: 12
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
 
-    - name: Checkout
-      uses: actions/checkout@v2.3.4
-      with:
-        fetch-depth: 0
-        persist-credentials: false
+      - name: Install dependencies
+        run: npm ci
 
-    - name: Install dependencies
-      run: npm ci
+      - name: Bump version
+        if: "github.ref == 'refs/heads/master' && !contains(toJSON(github.event.commits.*.message), 'chore(release)')"
+        id: bump-version
+        uses: ./
+        env:
+          DEBUG: release-it:*
+        with:
+          github-token: ${{ secrets.AUTO_PAT }}
+          github-username: TRW-bot
+          git-user-name: TheRealWaldo-bot
+          git-user-email: github-bot@inwr.com
+          create-branch: release
+          auto-resolve-command: npm run build && git add dist/**
+          rebase-onto: master
+          no-increment: false
+          json-opts: '{"github": {"release": false}}'
+          debug: true
 
-    - name: Bump version
-      if: "github.ref == 'refs/heads/master' && !contains(toJSON(github.event.commits.*.message), 'chore(release)')"
-      id: bump-version
-      uses: ./
-      with:
-        github-token: ${{ secrets.AUTO_PAT }}
-        github-username: TRW-bot
-        git-user-name: TheRealWaldo-bot
-        git-user-email: github-bot@inwr.com
-        create-branch: release
-        auto-resolve-command: npm run build && git add dist/**
-        rebase-onto: master
-        no-increment: false
-        json-opts: '{"github": {"release": false}}'
+      - name: Create pull request
+        if: "github.ref == 'refs/heads/master' && !contains(toJSON(github.event.commits.*.message), 'chore(release)')"
+        uses: TheRealWaldo/pull-request@v0.2.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.AUTO_PAT }}
+        with:
+          draft: true
+          title: 'chore(release): v${{steps.bump-version.outputs.version}}'
+          body: ${{steps.bump-version.outputs.changelog}}
+          base: master
+          head: release
+          assignee: TheRealWaldo
 
-    - name: Create pull request
-      if: "github.ref == 'refs/heads/master' && !contains(toJSON(github.event.commits.*.message), 'chore(release)')"
-      uses: TheRealWaldo/pull-request@v0.2.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.AUTO_PAT }}
-      with:
-        draft: true
-        title: "chore(release): v${{steps.bump-version.outputs.version}}"
-        body: ${{steps.bump-version.outputs.changelog}}
-        base: master
-        head: release
-        assignee: TheRealWaldo
-
-    - name: Release
-      if: "github.ref == 'refs/heads/master' && contains(toJSON(github.event.commits.*.message), 'chore(release)')"
-      uses: ./
-      with:
-        no-increment: true
-        github-token: ${{ secrets.AUTO_PAT }}
-        json-opts: >
-          {
-            "github": { "release": true },
-            "git": { "tag": true, "commit": false },
-            "plugins": {
-               "@release-it/bumper": {
-                 "in": { "file": "VERSION", "type": "text/plain" }
-               },
-               "@release-it/conventional-changelog": { "ignoreRecommendedBump": true }
+      - name: Release
+        if: "github.ref == 'refs/heads/master' && contains(toJSON(github.event.commits.*.message), 'chore(release)')"
+        uses: ./
+        env:
+          DEBUG: release-it:*
+        with:
+          no-increment: true
+          github-token: ${{ secrets.AUTO_PAT }}
+          debug: true
+          json-opts: >
+            {
+              "github": { "release": true },
+              "git": { "tag": true, "commit": false },
+              "plugins": {
+                 "@release-it/bumper": {
+                   "in": { "file": "VERSION", "type": "text/plain" }
+                 },
+                 "@release-it/conventional-changelog": { "ignoreRecommendedBump": true }
+              }
             }
-          }
-
