@@ -1,4 +1,5 @@
 {
+  "verbose": 2,
   "git": {
     "requireCleanWorkingDir": true,
     "tag": false,
