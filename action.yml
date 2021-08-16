@@ -35,7 +35,11 @@ inputs:
   no-increment:
     description: Whether release-it should increment the version or not
     required: false
-    default: "false"
+    default: 'false'
+  debug:
+    description: Whether to run release-it in debug mode or not
+    required: false
+    default: 'false'
 outputs:
   json-result:
     description: Serialized Json result object from release-it

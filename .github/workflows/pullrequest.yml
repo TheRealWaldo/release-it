@@ -52,7 +52,10 @@ jobs:
       - name: Test running action
         id: test-run
         uses: ./
+        env:
+          DEBUG: release-it:*
         with:
+          debug: true
           json-opts: >
             {
               "dry-run": true,

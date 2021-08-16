@@ -53,6 +53,7 @@ try {
   const contextBranch = context.ref.split('/')[2];
   const rebaseOnto = getInput('rebase-onto') || contextBranch;
   const noIncrement = getInput('no-increment') === 'true';
+  const isDebug = getInput('debug') === 'true';
 
   let remoteBranchExists = '';
 
@@ -60,6 +61,11 @@ try {
   if (noIncrement) {
     info('Setting increment to false');
     jsonOpts.increment = false;
+  }
+
+  if (isDebug) {
+    info('Setting debug to true');
+    jsonOpts.debug = true;
   }
 
   exportVariable('GITHUB_TOKEN', githubToken);

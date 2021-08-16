@@ -1,6 +1,7 @@
 declare module 'release-it' {
   export declare interface options {
     increment?: boolean;
+    debug?: boolean;
     git?: {
       requireCleanWorkingDir?: boolean;
       requireUpstream?: boolean;
