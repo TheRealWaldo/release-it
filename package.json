@@ -35,7 +35,7 @@
     "@release-it/bumper": "^3.0.1",
     "@release-it/conventional-changelog": "^3.3.0",
     "@tsconfig/node14": "^1.0.1",
-    "@typescript-eslint/eslint-plugin": "^4.29.3",
+    "@typescript-eslint/eslint-plugin": "^4.30.0",
     "@typescript-eslint/parser": "^4.30.0",
     "@vercel/ncc": "^0.29.2",
     "eslint": "^7.32.0",
