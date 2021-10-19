@@ -5,6 +5,7 @@ import {
   exportVariable,
   info,
   warning,
+  error,
   startGroup,
   endGroup,
   group,
@@ -28,17 +29,15 @@ function rebase(baseRef: string) {
   try {
     info(`Rebasing onto ${baseRef}`);
     execSync(`git rebase ${baseRef} --empty=drop`);
-  } catch (error) {
-    if (error.code !== 0) {
-      if (autoResolveCommand !== '') {
-        info('Attempting to auto resolve conflict');
-        execSync(autoResolveCommand);
-        info('Continuing rebase');
-        execSync('GIT_EDITOR=true git rebase --continue');
-      } else {
-        execSync('git rebase --abort');
-        error('Rebase failed');
-      }
+  } catch (caughtError) {
+    if (autoResolveCommand !== '') {
+      info('Attempting to auto resolve conflict');
+      execSync(autoResolveCommand);
+      info('Continuing rebase');
+      execSync('GIT_EDITOR=true git rebase --continue');
+    } else {
+      execSync('git rebase --abort');
+      error('Rebase failed');
     }
   }
 }
@@ -137,6 +136,10 @@ try {
   }).catch((reason) => {
     setFailed(reason.message);
   });
-} catch (error) {
-  setFailed(error.message);
+} catch (caughtError) {
+  if (caughtError instanceof Error) {
+    setFailed(caughtError.message);
+  } else {
+    setFailed('Unknown reason');
+  }
 }
