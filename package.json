@@ -33,7 +33,7 @@
     "@commitlint/cli": "^16.2.3",
     "@commitlint/config-conventional": "^16.2.1",
     "@release-it/bumper": "^3.0.1",
-    "@release-it/conventional-changelog": "^4.2.2",
+    "@release-it/conventional-changelog": "^4.3.0",
     "@tsconfig/node14": "^1.0.1",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
