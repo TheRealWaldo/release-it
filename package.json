@@ -30,7 +30,7 @@
     "release-it": "^14.14.3"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.0.0",
+    "@commitlint/cli": "^17.0.1",
     "@commitlint/config-conventional": "^17.0.0",
     "@release-it/bumper": "^3.0.1",
     "@release-it/conventional-changelog": "^4.3.0",
