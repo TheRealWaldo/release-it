@@ -25,7 +25,7 @@ jobs:
         run: npm run lint
 
       - name: Pull request linter action
-        uses: JulienKode/pull-request-name-linter-action@v19.0.0
+        uses: JulienKode/pull-request-name-linter-action@v20.1.0
 
       - name: Commit Linter
         env:
