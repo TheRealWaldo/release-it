@@ -27,13 +27,13 @@
     "@actions/github": "^5.1.1",
     "actions-toolkit": "^6.0.1",
     "json5": "^2.2.3",
-    "release-it": "^14.14.3"
+    "release-it": "^19.2.4"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
-    "@release-it/bumper": "^3.0.1",
-    "@release-it/conventional-changelog": "^4.3.0",
+    "@release-it/bumper": "^7.0.5",
+    "@release-it/conventional-changelog": "^10.0.5",
     "@tsconfig/node14": "^1.0.3",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
