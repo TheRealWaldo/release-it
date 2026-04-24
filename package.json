@@ -36,7 +36,7 @@
     "@release-it/conventional-changelog": "^4.3.0",
     "@tsconfig/node14": "^1.0.3",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
-    "@typescript-eslint/parser": "^4.33.0",
+    "@typescript-eslint/parser": "^8.59.0",
     "@vercel/ncc": "^0.38.4",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^15.0.0",
